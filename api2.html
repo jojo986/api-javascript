@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <style>
+            #root {display: flex;flex-wrap: wrap;justify-content: center;max-width: 1200px;margin: 0 auto;}
+            .card {border-radius: 8px; box-shadow: 1px 2px 4px 0px rgba(0, 0, 0, 0.11);flex: 1 25%;margin: 15px;}
+            .head {border-top-right-radius: 8px; border-top-left-radius: 8px; background-image: linear-gradient(120deg, #ff9a9e 0%, #fecfef 100%); color: #fff;text-align: center;padding: 10px;}
+            .desc {padding: 10px;}
+        </style>
+        <div id="root">
+            <div class="row">
+
+            </div>
+        </div>
+        <script>
+            var request = new XMLHttpRequest()
+
+            request.open('GET', 'https://ghibliapi.herokuapp.com/films', true)
+
+          
+            request.onload = function() {
+                var data = JSON.parse(this.response)
+                
+                if(request.status >= 200 && request.status < 400) {
+                    str = '';
+                    data.forEach(movie => {
+                        str = str + `
+                        <div class='card'>
+                            <div class='head'>${movie.title}</div>
+                            <div class='desc'>${movie.description.substring(0, 200)}....</div>
+                        </div>`
+                    })
+                    document.getElementById('root').innerHTML = str;
+                } else {
+                    console.log('error')
+                } 
+            }
+
+            request.send()
+        </script>
+    </body>
+</html>
